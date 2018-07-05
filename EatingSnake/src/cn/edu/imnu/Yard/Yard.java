@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 
 import cn.edu.imnu.Egg.Egg;
 import cn.edu.imnu.Snake.snake;
-
+//awt Abstract Window Toolkit)
 public class Yard extends Frame {
 	/*
      * 画图的线程
@@ -23,18 +23,18 @@ public class Yard extends Frame {
     /**
      * 行数
      */
-    public static final int ROWS = 30;
+    public static final int ROWS = 40;
     /*
      * 列数
      * */
-    public static final int COLS = 30;
+    public static final int COLS = 40;
     /*
      * 活动区域大小
      * */
-    public static final int BLOCK_SIZE = 15;
+    public static final int BLOCK_SIZE = 25;
 
     //设置显示字属性
-    private Font fontGameOver = new Font("宋体", Font.BOLD, 50);
+    private Font fontGameOver = new Font("宋体", Font.BOLD, 60);
 
     //分数
     private int score = 0;
@@ -45,13 +45,10 @@ public class Yard extends Frame {
     /*
      *实例化Snake和Egg的对象
      * */
-    Yard yark =this;
-    snake s = new snake(yark);
+    Yard yard =this;
+    snake s = new snake(yard);
     Egg e = new Egg();
-    /*
-     * 抽象类 Image 是表示图形图像的所有类的超类。
-     * 必须以特定于平台的方式获取图像。
-     * */
+    //创建一个 offScreenImage 的缓冲图像 
     Image offScreenImage = null;
 
     /*
@@ -68,13 +65,11 @@ public class Yard extends Frame {
          * 高度hight:ROWS*BLOCK_SIZE
          * */
         this.setSize(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
-        /*
-         * 为窗口添加监听器
-         * */
+     //监视器或接收窗口事件的侦听器接口
         this.addWindowListener(new WindowAdapter() {
 
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e/*窗口焦点*/) {
                 System.exit(0);
             }
 
@@ -135,44 +130,28 @@ public class Yard extends Frame {
         for(int i=1; i<COLS; i++) {
             g.drawLine(BLOCK_SIZE * i, 0, BLOCK_SIZE * i, BLOCK_SIZE * ROWS);
         }
-
-
         g.setColor(Color.YELLOW);//设定颜色，为下面显示文字信息做准备
-        /*
-         * drawString(String str, int x, int y) 
-         *使用此图形上下文的当前字体和颜色绘制由指定 string 给定的文本。
-         * */
-        g.drawString("使用说明：使用方向键控制方向，F1--停止，F2--停止后恢复，F5--重新开始" , 10, 40);
-        g.drawString("目前分数:" + score, 10, 60);
-        g.drawString("加分规则：每吃一个加5分，加油！" , 10, 80);
-        g.drawString("已经使用的时间："+(System.currentTimeMillis()-beginTime)/1000 , 10, 100);
-        /*
-         * 检测游戏是否结束，当游戏结束时，则提示游戏“game over”，而且将界面恢复到初始界面的状态，且终止绘图线程
-         * */
+        g.drawString("使用说明：使用方向键控制方向，F1--停止，F2--停止后恢复，F5--重新开始" , 10, 50);
+        g.drawString("目前分数:" + score, 10, 70);
+        g.drawString("加分规则：每吃一个加5分，加油！" , 10, 90);
+        g.drawString("已经使用的时间："+(System.currentTimeMillis()-beginTime)/1000 , 10, 110);
         if(gameOver) {
             g.setFont(fontGameOver);
             g.drawString("game over!", 90, 170);
             g.drawString("在玩一次，请按F5", 10, 250);
-            g.drawString(" ", 200, 230);//???这个用意何在？？
-
+            g.drawString(" ", 200, 230);
             paintThread.pause();
         }
-        if(score>100) {
-            g.drawString("好棒！！！", 90, 170);
+        if(score>5) {
+            g.drawString("牛逼！！！", 90, 170);
             g.drawString("你已经超过"+score+",继续加油", 10, 230);
 
 
         }
-
-        /*
-         * 将图形界面设置为刚开始的颜色
-         * */
         g.setColor(c);
-
         s.eat(e);
         e.draw(g);
         s.draw(g);
-
 
     }
 
@@ -220,11 +199,9 @@ public class Yard extends Frame {
         }
 
         public void reStart() {
-            this.pause = false;
-            Yard yard = this;
-            snake s = new snake(yard);
+        	this.pause = false;
+            s = new snake(Yard.this);//重画
             gameOver = false;
-            score=0;
             
         }
 

@@ -96,7 +96,7 @@ import cn.edu.imnu.Yard.Yard;
 	        size ++;
 	    }
 
-	    // 从头加，下面的代码比较简单，相信大家应该都能理解
+	    // 从头加
 	    public void addToHead() {
 	        Node node = null;
 	        switch(head.dir) {
@@ -113,12 +113,7 @@ import cn.edu.imnu.Yard.Yard;
 	            node = new Node(head.row + 1, head.col, head.dir);
 	            break;
 	        }
-//	      node.next = head;
-//	      head.prev = node;
-//	      head = node;
-	        /*
-	         * 上面这种写法与下面这种写法一致，不过下面这种写法我更容易理解
-	         * */
+
 	        head.prev=node;
 	        node.next=head;
 	        head=node;
