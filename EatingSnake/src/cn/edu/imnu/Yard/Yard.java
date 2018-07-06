@@ -19,6 +19,7 @@ public class Yard extends Frame {
      * */
     PaintThread paintThread = new PaintThread();
     private boolean gameOver = false; //游戏是否结束
+    private boolean beganGame = gameOver;
 
     /**
      * 行数
@@ -82,8 +83,9 @@ public class Yard extends Frame {
          * 为窗口添加键盘事件
          * */
         this.addKeyListener(new KeyMonitor());
-
         new Thread(paintThread).start();
+      
+        
     }
 
     public static void main(String[] args) {
@@ -145,6 +147,16 @@ public class Yard extends Frame {
         if(score>5) {
             g.drawString("牛逼！！！", 90, 170);
             g.drawString("你已经超过"+score+",继续加油", 10, 230);
+
+
+        }
+        if(!beganGame) {
+        	 Font f=new Font(null,Font.PLAIN,40);
+        	 g.setFont(f);
+            g.drawString("开始游戏", 400, 500);
+            g.drawString("请按F3", 400, 600);
+            paintThread.pause();
+            
 
 
         }
@@ -210,9 +222,7 @@ public class Yard extends Frame {
         }
 
     }
-    /*
-     * 此函数的功能为：检测我们是否按下F2，若按下，则重新启动线程，即重新开始游戏
-     * */
+ 
     private class KeyMonitor extends KeyAdapter {
 
         @Override
@@ -227,15 +237,14 @@ public class Yard extends Frame {
             else if(key==KeyEvent.VK_F2){
                 paintThread.pause=false;//从暂停中恢复
             }
+            else if(key==KeyEvent.VK_F3){
+                paintThread.pause=false;//从暂停中恢复
+                beganGame=true;
+            }
             s.keyPressed(e);
         }
 
     }
-
-    /**
-     * 拿到所得的分数
-     * @return 分数
-     */
 
     public int getScore() {
         return score;
