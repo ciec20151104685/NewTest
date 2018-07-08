@@ -95,6 +95,7 @@ public class UserServiceImpl implements UserService{
 		PreparedStatement pstmt = null;//参数设置
 		try {
 			pstmt = con.prepareStatement(sql);//预加载SQL
+			String score = null;
 			pstmt.setString(1, score);
 			rs = pstmt.executeQuery();//执行查询
 			pstmt.executeUpdate();

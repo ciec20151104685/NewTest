@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 
 import cn.edu.imnu.Egg.Egg;
 import cn.edu.imnu.Snake.snake;
+import cn.edu.imnu.StartBody.StartBody;
 //awt Abstract Window Toolkit)
 public class Yard extends Frame {
 	/*
@@ -89,9 +90,14 @@ public class Yard extends Frame {
     }
 
     public static void main(String[] args) {
-        Yard y=new Yard();
-        y.beginTime=System.currentTimeMillis();
-        y.launch();
+//    	  Yard y=new Yard();
+//          y.beginTime=System.currentTimeMillis();
+//          y.launch();
+    }
+    
+    public Yard () {
+    	beginTime=System.currentTimeMillis();
+    	launch();
     }
     /*
      * 将变量gameOver设置为true，使得在paint()函数中将使得线程停止
