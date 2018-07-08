@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 
 		Connection con = DBUtil.getConnection();//获取数据库连接
-		String sql = "INSERT INTO user (id,image,password,user_name) VALUES (default,?,?,?)";
+		String sql = "INSERT INTO user (id,image,password,user_name) VALUES (default,0,?,?)";
 		ResultSet rs=null;//结果集
 		PreparedStatement pstmt = null;//参数设置
 		try {
 			pstmt = con.prepareStatement(sql);//预加载SQL
-			pstmt.setString(1, user.getImage());
-			pstmt.setString(2, user.getPassword());
-			pstmt.setString(3, user.getUser_name());
+//			pstmt.setString(1, user.getImage());
+			pstmt.setString(1, user.getPassword());
+			pstmt.setString(2, user.getUser_name());
 			
 			pstmt.executeUpdate();
 			

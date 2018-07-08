@@ -1,8 +1,12 @@
 package cn.edu.imnu.StartBody;
 import java.awt.Font;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.EOFException;
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import cn.edu.imnu.User.User;
+import cn.edu.imnu.UserService.UserService;
+import cn.edu.imnu.UserServiceimpl.UserServiceImpl;
 import cn.edu.imnu.Yard.Yard;
 
 /**
@@ -81,7 +88,7 @@ public class StartBody extends JFrame {
 
  
 
-		bt2=new JButton("退出");
+		bt2=new JButton("注册");
 
 		bt2.setBounds(250, 250, 100, 50);
 
@@ -91,7 +98,7 @@ public class StartBody extends JFrame {
 
 		//加入文本框
 
-		jtext1=new JTextField("root");
+		jtext1=new JTextField("");
 
 		jtext1.setBounds(150, 50, 250, 50);
 
@@ -99,7 +106,7 @@ public class StartBody extends JFrame {
 
 		
 
-		jtext2=new JPasswordField("123456");//密码输入框
+		jtext2=new JPasswordField("");//密码输入框
 
 		jtext2.setBounds(150, 120, 250, 50);
 
@@ -141,19 +148,6 @@ public class StartBody extends JFrame {
 
 		final StartBody hl =new StartBody();
 
-		/**
-
-		 * 处理点击事件
-
-		 * 1.登陆按钮点击事件，判断账号密码是否正确，若正确，弹出监测信息界面
-
-		 * 否则，无响应（暂时无响应）
-
-		 * ：后可在登陆界面添加一个logLabel提示用户是否用户密码正确
-
-		 * 2.退出按钮，直接退出程序
-
-		 */
 
 		//登陆点击事件
 
@@ -162,52 +156,35 @@ public class StartBody extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				// TODO Auto-generated method stub
-
 				String admin=jtext1.getText();
-
-				char[] password=jtext2.getPassword();
-
-				String str=String.valueOf(password); //将char数组转化为string类型
-
+				char[] password1=jtext2.getPassword();
 				
-
-				if(admin.equals("root")&&str.equals("123456"))
-
+				String password= String.valueOf(password1);
+				
+				UserService userservice = new UserServiceImpl();
+				userservice.selectUser(admin, password);
+				User user = userservice.selectUser(admin,password);
+				if(user!=null && user.getId()!=null)
 				{
-
-					   
-
-					System.out.println(admin);
-
-					System.out.println(str);
-
 					Yard ml=new Yard();//为跳转的界面
 
 					hl.jf_1.dispose();//销毁当前界面
 
-				}
-
-				else {
-
+				}//成功跳转
+				else
+				{
+					System.out.println("账户名或密码错误");
 					count++;
-
-					System.out.println("error");
-
 					if(count==3){
 
-						hl.jf_1.dispose();
-
-					}
-
+					hl.jf_1.dispose();
+				                 }									
 				}
 			}
-
 		};
 
 		bt1.addActionListener(bt1_ls);
-
+		
 		//退出事件的处理
 
 		ActionListener bt2_ls=new ActionListener() {
@@ -218,13 +195,25 @@ public class StartBody extends JFrame {
 
 				// TODO Auto-generated method stub
 
-				System.exit(0);//终止当前程序
-
+//				System.exit(0);//终止当前程序
+				
+				User user = new User();
+				
+				String admin=jtext1.getText();
+				char[] password1=jtext2.getPassword();
+				
+				String password= String.valueOf(password1);
+				user.setPassword(password);
+				
+				user.setUser_name(admin);
+				UserService userservice = new UserServiceImpl();
+				userservice.insertUser(user);
 			}
 
 		};
 
         bt2.addActionListener(bt2_ls);		
 
-     }
+     
+	}
 }

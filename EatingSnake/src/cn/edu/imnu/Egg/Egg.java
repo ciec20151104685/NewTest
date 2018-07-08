@@ -7,19 +7,13 @@ import java.util.Random;
 
 import cn.edu.imnu.Yard.Yard;
 
-//鸡蛋
-
 public class Egg {
     int row, col;
     int w = Yard.BLOCK_SIZE;
     int h = Yard.BLOCK_SIZE;
 
-    //初始位置产生随机数
     private static Random r = new Random();
-    //颜色
     private Color color = Color.PINK;
-
-
     //运动时的位置
     public Egg(int row, int col) {
         this.row = row;
@@ -28,11 +22,11 @@ public class Egg {
 
     //初始时在位置
     public Egg() {
-        this(r.nextInt(Yard.ROWS-2) + 2, r.nextInt(Yard.COLS));
+        this(r.nextInt(Yard.ROWS), r.nextInt(Yard.COLS));
     }
 
     public void reAppear() {
-        this.row = r.nextInt(Yard.ROWS-2) + 2;
+        this.row = r.nextInt(Yard.ROWS) ;
         this.col = r.nextInt(Yard.COLS);
     }
 

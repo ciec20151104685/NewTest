@@ -22,50 +22,31 @@ public class Yard extends Frame {
     private boolean gameOver = false; //游戏是否结束
     private boolean beganGame = gameOver;
 
-    /**
-     * 行数
-     */
-    public static final int ROWS = 40;
-    /*
-     * 列数
-     * */
-    public static final int COLS = 40;
-    /*
-     * 活动区域大小
-     * */
+    public static final int ROWS = 30;
+
+    public static final int COLS = 30;
+   
     public static final int BLOCK_SIZE = 25;
 
-    //设置显示字属性
+  
     private Font fontGameOver = new Font("宋体", Font.BOLD, 60);
 
-    //分数
+   
     private int score = 0;
-    /*
-     * 记录开始时候的时间
-     * */
+  
     private long beginTime=0;
-    /*
-     *实例化Snake和Egg的对象
-     * */
+  
     Yard yard =this;
     snake s = new snake(yard);
     Egg e = new Egg();
     //创建一个 offScreenImage 的缓冲图像 
     Image offScreenImage = null;
 
-    /*
-     * 此函数的功能是：设置窗口的大小、位置、可见，以及点击事件和键盘事件，最后开启了绘图线程
-     * */
+    /* 此函数的功能是：设置窗口的大小、位置、可见，以及点击事件和键盘事件，最后开启了绘图线程 */
     public void launch() {
-        /*
-         * 指定窗口的位置，窗口的左上角的位置为(90,10).是相对父窗口的相对位置
-         * */
+      
         this.setLocation(90, 10);
-        /*
-         * 设定窗口的大小
-         * 宽度width：COLS*BLOCK_SIZE
-         * 高度hight:ROWS*BLOCK_SIZE
-         * */
+      
         this.setSize(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
      //监视器或接收窗口事件的侦听器接口
         this.addWindowListener(new WindowAdapter() {
@@ -107,31 +88,13 @@ public class Yard extends Frame {
     }
 
     @Override
-    public void paint(Graphics g) {
-        /*
-         * 获取此图形上下文的颜色
-         * */
-        Color c = g.getColor();
-        /*
-         * 指定图形上下文的颜色
-         * */
-        g.setColor(Color.GRAY);
-        /*
-         * 用当前的颜色来填充指定的区域
-         * */
+    public void paint(Graphics g/*huabi*/) {  
+        Color c = g.getColor(); 
+        g.setColor(Color.GRAY);     
         g.fillRect(0, 0, COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
-        /*
-         * 再一次的指定颜色为：黑灰色？？？？？？？为什么要再一次的设定？？？
-         * 原因在于：我们想将绘图的颜色与文字显示的不一样
-         * */
         g.setColor(Color.DARK_GRAY);
         //画出横线
-        /*
-         * drawLine(int x1, int y1, int x2, int y2) 
-         *  函数的功能为：
-         * 在此图形上下文的坐标系中，使用当前颜色在点 (x1, y1) 和 (x2, y2) 之间画一条线。
-         * 通过下面的两个for循环就会在图形化对象上画出表格
-         * */
+        /*drawLine(int x1, int y1, int x2, int y2)  */
         for(int i=1; i<ROWS; i++) {
             g.drawLine(0, BLOCK_SIZE * i, COLS * BLOCK_SIZE, BLOCK_SIZE * i);
         }
@@ -176,11 +139,7 @@ public class Yard extends Frame {
     @Override
     public void update(Graphics g) {
         if(offScreenImage == null) {
-            /*
-             * public Image createImage(int width,
-             *           int height)
-             * 创建一幅用于双缓冲的、可在屏幕外绘制的图像
-             * */
+            /*这里是先在内存中创建一个 offScreenImage 的缓冲图像 */
             offScreenImage = this.createImage(COLS * BLOCK_SIZE, ROWS * BLOCK_SIZE);
         }
         /*
@@ -200,10 +159,9 @@ public class Yard extends Frame {
         private boolean running = true;
         private boolean pause = false;
         public void run() {
-            while(running) {//线程将一直处于运行当中，只有在游戏结束的时候
+            while(running) {
                 if(pause) continue; 
-                else repaint();//如果组件是轻量级组件，则会尽快调用paint()方法或者是调用update()
-
+                else repaint();//重画
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
